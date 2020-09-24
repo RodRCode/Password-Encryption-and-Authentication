@@ -30,7 +30,6 @@ namespace Password_Encryption_and_Authentication
             int initialConsoleWidth = Console.WindowWidth;
             int hashLength = 128;
 
-
             Console.CursorTop = hashLength / initialConsoleWidth + 2;
             Console.WriteLine($"Enter your text below to see it hashed in real time:\n");
 
@@ -98,19 +97,19 @@ namespace Password_Encryption_and_Authentication
                         // Determine where we are in the console buffer.
                         int cursorCol = Console.CursorLeft - 1;
                         int oldLength = inputString.Length;
-                        //        int extraRows = oldLength / 80;
 
                         inputString = inputString.Substring(0, oldLength - 1);
                         Console.CursorLeft = 0;
                         Console.Write(inputString + new String(' ', oldLength - inputString.Length));
                         Console.CursorLeft = cursorCol;
+                        PrintRealTimeHashToScreen(inputString);
                     }
                     continue;
                 }
                 // Handle Escape key.
                 if (keyInfo.Key == ConsoleKey.Escape) break;
                 // Handle key by adding it to input string.
-               // Console.Write(keyInfo.KeyChar);
+                Console.Write(keyInfo.KeyChar);
                 inputString += keyInfo.KeyChar;
                 PrintRealTimeHashToScreen(inputString);
             } while (keyInfo.Key != ConsoleKey.Enter);
