@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 /*
@@ -31,15 +32,23 @@ namespace Password_Encryption_and_Authentication
             HashAlgorithm sha = SHA512.Create();
             byte[] result = sha.ComputeHash(toBeHased);
             //convert to base16 then pad to look right
-            string toScreen = ConvertByteToString(result);
+            string toScreen = BitConverter.ToString(result).Replace("-", "").ToLower();
 
             Console.WriteLine($"The text \"{stringToHash}\" once hashed by SHA512 looks like this: \n\n");
             Console.WriteLine(toScreen);
-        }
 
-        private static string ConvertByteToString(byte[] result)
-        {
-            throw new NotImplementedException();
+            Console.WriteLine("\nEnter your text below to see it hashed in real time\n\n");
+            bool finished = false;
+            do
+            {
+                int currentX = Console.CursorLeft;
+                int currentY = Console.CursorTop;
+
+                List<string> holdingArea = new List<string>();
+
+                holdingArea.Add(Console.ReadKey());
+
+            } while (!finished);
         }
     }
 }
