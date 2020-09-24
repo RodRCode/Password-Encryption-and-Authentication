@@ -17,45 +17,35 @@ namespace Password_Encryption_and_Authentication
         private void EventLoop()
         {
             string menuMessage = "\n\nPASSWORD AUTHENTICATION SYSTEM" +
+                "\nMake your choice using the arrow keys or the numbers, then (ENTER)" +
                 "\nWhat would you like to do:";
             bool finished = false;
             do
             {
-                Console.WriteLine("HERE IS A BIG FAT TEST!!!!!!");
                 ConsoleMenuPainter.TextColor();
-                Console.WriteLine(menuMessage);
                 string[] menuItems = new string[] {
                 "1) Establish an account",
                 "2) Authenticate a user",
                 "3) See a real time hash text as you type",
                 "4) Quit" };
-                //Console.Clear();
-                int userChoice = Menu.Selection(menuItems, Console.CursorLeft + 1, Console.CursorTop + 1, menuMessage); 
+                Console.Clear();
+                int userChoice = Menu.Selection(menuItems, Console.CursorLeft+1, Console.CursorTop, menuMessage); 
 
                 switch (userChoice)
                 {
                     case 0:
-                        //      Console.Clear();
-                        Console.WriteLine($"{menuItems[0]}\n");
                         EstablishAccount();
                         break;
                     case 1:
-                        //      Console.Clear();
-                        Console.WriteLine($"{menuItems[1]}\n");
                         AuthenticateUser();
                         break;
                     case 2:
-                        //      Console.Clear();
-                        Console.WriteLine($"{menuItems[2]}\n");
                         RealTimeHashDemo();
                         break;
                     case 3:
-                        //       Console.Clear();
-                        Console.WriteLine($"{menuItems[3]}");
                         finished = true;
                         break;
                     default:
-                        //        Console.Clear();
                         Console.WriteLine("Default case");
                         break;
                 }
@@ -66,6 +56,7 @@ namespace Password_Encryption_and_Authentication
 
         private void RealTimeHashDemo()
         {
+            Console.Clear();
             int initialConsoleWidth = Console.WindowWidth;
             int hashLength = 128;
 

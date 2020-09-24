@@ -22,7 +22,7 @@ namespace Password_Encryption_and_Authentication
 
         public void MoveDown() => SelectedIndex = Math.Min(SelectedIndex + 1, Items.Count - 1);
 
-        // Recieves a string array and x and y coordinates to create the interactive menu at the x and y coordinates
+        // Receives a string array and x and y coordinates to create the interactive menu at the x and y coordinates
         public static int Selection(string[] menuItems, int x, int y, string menuMessage)
         {
             var menu = new Menu(menuItems);
@@ -33,9 +33,14 @@ namespace Password_Encryption_and_Authentication
 
             bool done = false;
 
+            Console.WriteLine(menuMessage);
+            x = Console.CursorLeft + x;
+            y = Console.CursorTop + y + 1;
+
             do
             {
-                menuPainter.Paint(x, y, menuMessage);
+
+                menuPainter.Paint(x, y);
 
                 var keyInfo = Console.ReadKey(true);
 
@@ -98,11 +103,10 @@ namespace Password_Encryption_and_Authentication
             this.menu = menu;
         }
 
-        public void Paint(int x, int y, string menuMessage)
+        public void Paint(int x, int y)
         {
             for (int i = 0; i < menu.Items.Count; i++)
             {
-            Console.WriteLine(menuMessage);
                 Console.SetCursorPosition(x, y + i);
 
                 if (menu.SelectedIndex == i)
