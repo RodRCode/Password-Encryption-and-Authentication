@@ -27,40 +27,50 @@ namespace Password_Encryption_and_Authentication
     {
         static void Main(string[] args)
         {
-            string stringToHash = "test";
-            byte[] toBeHased = Encoding.ASCII.GetBytes(stringToHash);
-            HashAlgorithm sha = SHA512.Create();
-            byte[] result = sha.ComputeHash(toBeHased);
-            //convert to base16 then pad to look right
-            string toScreen = BitConverter.ToString(result).Replace("-", "").ToLower();
+            int initialConsoleWidth = Console.WindowWidth;
+            int hashLength = 128;
 
-            Console.WriteLine($"The text \"{stringToHash}\" once hashed by SHA512 looks like this: \n\n");
-            Console.WriteLine(toScreen);
 
-            Console.WriteLine("\nEnter your text below to see it hashed in real time\n\n");
+            Console.CursorTop = hashLength / initialConsoleWidth + 2;
+            Console.WriteLine($"Enter your text below to see it hashed in real time:\n");
 
-            FromMSFTReadKey();
-            //NewThingy();
+            string toScreen = GetKeyPresses();
 
         }
 
-        private static void NewThingy()
+        private static void PrintRealTimeHashToScreen(string inputString)
         {
-            bool finished = false;
-            do
-            {
-                int currentX = Console.CursorLeft;
-                int currentY = Console.CursorTop;
+            int currentX = Console.CursorLeft;
+            int currentY = Console.CursorTop;
 
-                List<string> holdingArea = new List<string>();
-            } while (!finished);
+            string hashedString = GetHashedString(inputString);
+
+            Console.CursorTop = 0;
+            Console.CursorLeft = 0;
+            var originalBackgroundColor = Console.BackgroundColor;
+            var originalForegroundColor = Console.ForegroundColor;
+
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine(hashedString);
+            Console.BackgroundColor = originalBackgroundColor;
+            Console.ForegroundColor = originalForegroundColor;
+
+            Console.CursorLeft = currentX;
+            Console.CursorTop = currentY;
         }
 
-        private static void FromMSFTReadKey()
+        private static string GetHashedString(string inputString)
+        {
+            byte[] toBeHased = Encoding.ASCII.GetBytes(inputString);
+            HashAlgorithm sha = SHA512.Create();
+            byte[] hashedResult = sha.ComputeHash(toBeHased);
+            string hashedString = BitConverter.ToString(hashedResult).Replace("-", "").ToLower();
+            return hashedString;
+        }
+
+        private static string GetKeyPresses()
         {
             // Configure console.
-            Console.BufferWidth = 80;
-            Console.WindowWidth = Console.BufferWidth;
             Console.TreatControlCAsInput = true;
 
             string inputString = String.Empty;
@@ -88,11 +98,10 @@ namespace Password_Encryption_and_Authentication
                         // Determine where we are in the console buffer.
                         int cursorCol = Console.CursorLeft - 1;
                         int oldLength = inputString.Length;
-                        int extraRows = oldLength / 80;
+                        //        int extraRows = oldLength / 80;
 
                         inputString = inputString.Substring(0, oldLength - 1);
                         Console.CursorLeft = 0;
-                        Console.CursorTop = Console.CursorTop - extraRows;
                         Console.Write(inputString + new String(' ', oldLength - inputString.Length));
                         Console.CursorLeft = cursorCol;
                     }
@@ -101,11 +110,11 @@ namespace Password_Encryption_and_Authentication
                 // Handle Escape key.
                 if (keyInfo.Key == ConsoleKey.Escape) break;
                 // Handle key by adding it to input string.
-                Console.Write(keyInfo.KeyChar);
+               // Console.Write(keyInfo.KeyChar);
                 inputString += keyInfo.KeyChar;
+                PrintRealTimeHashToScreen(inputString);
             } while (keyInfo.Key != ConsoleKey.Enter);
-            Console.WriteLine("\n\nYou entered:\n    {0}",
-                              String.IsNullOrEmpty(inputString) ? "<nothing>" : inputString);
+            return inputString;
         }
-    }    
+    }
 }
