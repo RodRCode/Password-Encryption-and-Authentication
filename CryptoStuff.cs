@@ -39,7 +39,6 @@ namespace Password_Encryption_and_Authentication
         public static string GetKeyPressesRealTimeHashDisplay()
         {
             // Configure console.
-            Console.TreatControlCAsInput = true;
 
             string inputString = String.Empty;
             ConsoleKeyInfo keyInfo;
@@ -78,10 +77,12 @@ namespace Password_Encryption_and_Authentication
                 // Handle Escape key.
                 if (keyInfo.Key == ConsoleKey.Escape) break;
                 // Handle key by adding it to input string.
+                if (keyInfo.Key == ConsoleKey.Enter) break;
                 Console.Write(keyInfo.KeyChar);
                 inputString += keyInfo.KeyChar;
                 PrintRealTimeHashToScreen(inputString);
             } while (keyInfo.Key != ConsoleKey.Enter);
+
             PrintRealTimeHashToScreen(inputString);
             return inputString;
         }
