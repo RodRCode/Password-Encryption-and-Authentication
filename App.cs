@@ -6,6 +6,7 @@ namespace Password_Encryption_and_Authentication
     internal class App
     {
         Dictionary<string, string> userAndPassword = new Dictionary<string, string>();
+        string salt = "Once upon a time Jenny went to Beverly Hills 90210 and called her friend Mary at 867-5309";
         public App()
         {
         }
@@ -94,6 +95,8 @@ namespace Password_Encryption_and_Authentication
 
                 Console.Write("Enter the password: ");
                 string testPassword = HideTextAsEntered();
+                testPassword += salt;
+                testPassword += testUsername;
                 string testHash = CryptoStuff.GetHashedString(testPassword);
 
                 if (testHash == userAndPassword[testUsername])
@@ -141,8 +144,8 @@ namespace Password_Encryption_and_Authentication
                     userAndPassword.Add(userName, null);
                     Console.Write("\nNow the password, then press (enter): ");
                     string password = HideTextAsEntered();
-                    Console.WriteLine();
-                    Console.WriteLine(password);
+                    password += salt;
+                    password += userName;
                     password = CryptoStuff.GetHashedString(password);
                     //stores the hashed password into the dictionary
                     userAndPassword[userName] = password;
