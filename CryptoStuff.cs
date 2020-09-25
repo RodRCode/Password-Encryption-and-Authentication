@@ -36,7 +36,7 @@ namespace Password_Encryption_and_Authentication
             return hashedString;
         }
 
-        public static string GetKeyPressesRealTimeHashDisplay()
+        public static string GetKeyPressesRealTimeHashDisplay() //based on the Microsoft Docs information
         {
             // Configure console.
 

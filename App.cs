@@ -183,8 +183,8 @@ namespace Password_Encryption_and_Authentication
             }
         }
 
-        // Does not show the password as it is being entered character by character
-        private string HideTextAsEntered()
+        // Does not show the password as it is being entered character by character   //based on the Microsoft Docs information
+        private string HideTextAsEntered() 
         {
             // Configure console.
 
