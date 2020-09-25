@@ -44,6 +44,8 @@ namespace Password_Encryption_and_Authentication
             ConsoleKeyInfo keyInfo;
 
             Console.WriteLine("Enter a string. Press <Enter> or Esc to exit.");
+            int originalCol = Console.CursorLeft;
+            int originalTop = Console.CursorTop;
             do
             {
                 keyInfo = Console.ReadKey(true);
@@ -64,10 +66,24 @@ namespace Password_Encryption_and_Authentication
                     {
                         // Determine where we are in the console buffer.
                         int cursorCol = Console.CursorLeft - 1;
+
+                        // In case we need to delete across multiple rows
+                        if (cursorCol < 0)
+                        {
+                            cursorCol = Console.WindowWidth - 1;
+                            Console.CursorTop = Console.CursorTop - 1;
+                        }
+
                         int oldLength = inputString.Length;
 
                         inputString = inputString.Substring(0, oldLength - 1);
                         Console.CursorLeft = 0;
+
+                        if (inputString.Length >= Console.WindowWidth)
+                        {
+                            Console.CursorTop = originalTop;
+                            Console.CursorLeft = originalCol;
+                        }
                         Console.Write(inputString + new String(' ', oldLength - inputString.Length));
                         Console.CursorLeft = cursorCol;
                         PrintRealTimeHashToScreen(inputString);
@@ -78,7 +94,17 @@ namespace Password_Encryption_and_Authentication
                 if (keyInfo.Key == ConsoleKey.Escape) break;
                 // Handle key by adding it to input string.
                 if (keyInfo.Key == ConsoleKey.Enter) break;
-                Console.Write(keyInfo.KeyChar);
+                // In case we need to span text across multiple rows
+                if (Console.CursorLeft >= (Console.WindowWidth - 1))
+                {
+                    Console.Write(keyInfo.KeyChar);
+                    Console.CursorLeft = 0;
+                    Console.CursorTop = Console.CursorTop + 1;
+                }
+                else
+                {
+                    Console.Write(keyInfo.KeyChar);
+                }
                 inputString += keyInfo.KeyChar;
                 PrintRealTimeHashToScreen(inputString);
             } while (keyInfo.Key != ConsoleKey.Enter);

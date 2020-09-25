@@ -103,9 +103,6 @@ namespace Password_Encryption_and_Authentication
                     Console.WriteLine(password);
                     password = CryptoStuff.GetHashedString(password);
                     userAndPassword[userName] = password;
-                    //Console.WriteLine($"Password: {userAndPassword[userName]}");
-                    //Console.WriteLine("Press any key to go to the main menu");
-                    //Console.ReadKey();
                     done = true;
                 }
                 else
