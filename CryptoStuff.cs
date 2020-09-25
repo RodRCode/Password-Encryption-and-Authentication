@@ -27,7 +27,7 @@ namespace Password_Encryption_and_Authentication
             Console.CursorTop = currentY;
         }
 
-        private static string GetHashedString(string inputString)
+        public static string GetHashedString(string inputString)
         {
             byte[] toBeHased = Encoding.ASCII.GetBytes(inputString);
             HashAlgorithm sha = SHA512.Create();
@@ -36,7 +36,7 @@ namespace Password_Encryption_and_Authentication
             return hashedString;
         }
 
-        public static string GetKeyPresses()
+        public static string GetKeyPressesRealTimeHashDisplay()
         {
             // Configure console.
             Console.TreatControlCAsInput = true;

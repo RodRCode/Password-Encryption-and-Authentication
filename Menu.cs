@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Password_Encryption_and_Authentication
 {
@@ -39,12 +40,15 @@ namespace Password_Encryption_and_Authentication
 
             do
             {
-
                 menuPainter.Paint(x, y);
 
                 var keyInfo = Console.ReadKey(true);
 
-                menu.SelectedIndex = AlternateInputSelection(keyInfo, menu.SelectedIndex, countOfMenuItems);
+                menu.SelectedIndex = AlternateInputSelection(ref done, keyInfo, menu.SelectedIndex, countOfMenuItems);
+                if (done)
+                {
+                    return menu.SelectedIndex;
+                }
 
                 switch (keyInfo.Key)
                 {
@@ -61,12 +65,12 @@ namespace Password_Encryption_and_Authentication
             while (!done);
 
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("Selected option: " + (menu.SelectedOption ?? "(nothing)"));
+         //   Console.WriteLine("Selected option: " + (menu.SelectedOption ?? "(nothing)"));
             Console.ReadKey();
             return (9);
         }
 
-        private static int AlternateInputSelection(ConsoleKeyInfo keyInfo, int selectedIndex, int countOfMenuItems)
+        private static int AlternateInputSelection(ref bool done, ConsoleKeyInfo keyInfo, int selectedIndex, int countOfMenuItems)
         {
             int selection = selectedIndex;
 
@@ -90,6 +94,7 @@ namespace Password_Encryption_and_Authentication
                 selection = selectedIndex;
             }
 
+            done = true;
             return selection;
         }
     }

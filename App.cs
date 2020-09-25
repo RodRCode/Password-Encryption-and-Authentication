@@ -63,7 +63,7 @@ namespace Password_Encryption_and_Authentication
             Console.CursorTop = hashLength / initialConsoleWidth + 2;
             Console.WriteLine($"Enter your text below to see it hashed in real time:\n");
 
-            string toScreen = CryptoStuff.GetKeyPresses();
+            string toScreen = CryptoStuff.GetKeyPressesRealTimeHashDisplay();
         }
 
         private void AuthenticateUser()
@@ -75,22 +75,5 @@ namespace Password_Encryption_and_Authentication
         {
             throw new NotImplementedException();
         }
-
-        //  private int DetermineWhatUserWants()
-        //  {
-        //      Console.WriteLine("\n\nPASSWORD AUTHENTICATION SYSTEM");
-        //      Console.WriteLine("\nWhat would you like to do:");
-        //      Console.WriteLine("1) Establish an account");
-        //      Console.WriteLine("2) Authenticate a user");
-        //      Console.WriteLine("3) See a real time has of text as you type");
-        //      Console.WriteLine("4) Quit");
-        //      Console.WriteLine();
-        //      Console.Write("Either press the number of your choice\n" +
-        //          "Or use the arrow keys and hit 'Enter'\n" +
-        //          "Your choice: ");
-        //
-        //      int userChoice = Elicit.WholeNumber();
-        //      return userChoice;
-        //  }
     }
 }
