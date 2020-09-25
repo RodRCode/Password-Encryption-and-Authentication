@@ -82,7 +82,48 @@ namespace Password_Encryption_and_Authentication
 
         private void AuthenticateUser()
         {
-            throw new NotImplementedException();
+            Console.Clear();
+            Console.Write("\nEnter the username you want to authenticate: ");
+            string testUsername = Console.ReadLine();
+            if (userAndPassword.TryGetValue(testUsername, out string value))
+            {
+                var originalColor = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"Username {testUsername} is a registered user.\n");
+                Console.ForegroundColor = originalColor;
+
+                Console.Write("Enter the password: ");
+                string testPassword = HideTextAsEntered();
+                string testHash = CryptoStuff.GetHashedString(testPassword);
+
+                if (testHash == userAndPassword[testUsername])
+                {
+                    originalColor = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"User {testUsername} has been authenticated!");
+                    Console.ForegroundColor = originalColor;
+                }
+                else
+                {
+                    originalColor = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"User {testUsername} has NOT been authenticated!");
+                    Console.ForegroundColor = originalColor;
+                }
+
+                Console.Write("\nEnter any key to continue: ");
+                Console.ReadKey();
+            }
+            else
+            {
+                var originalColor = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"\nUsername {testUsername} isn't a registered user.");
+                Console.ForegroundColor = originalColor;
+
+                Console.Write("\nEnter any key to continue: ");
+                Console.ReadKey();
+            }
         }
 
         private void EstablishAccount()
@@ -94,6 +135,7 @@ namespace Password_Encryption_and_Authentication
                 string userName = "";
                 Console.Write("\nEnter a user name, then press (enter): ");
                 userName = Console.ReadLine();
+                // if the username is unique in the dictionary
                 if (!userAndPassword.ContainsKey(userName))
                 {
                     userAndPassword.Add(userName, null);
@@ -102,13 +144,14 @@ namespace Password_Encryption_and_Authentication
                     Console.WriteLine();
                     Console.WriteLine(password);
                     password = CryptoStuff.GetHashedString(password);
+                    //stores the hashed password into the dictionary
                     userAndPassword[userName] = password;
                     done = true;
                 }
-                else
+                else // If the username is already taken
                 {
                     var originalColor = Console.ForegroundColor;
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("\nThat username already exists!");
                     Console.ForegroundColor = originalColor;
                     Console.Write("\nWould you like to try again (y/n): ");
@@ -136,6 +179,7 @@ namespace Password_Encryption_and_Authentication
             }
         }
 
+        // Does not show the password as it is being entered character by character
         private string HideTextAsEntered()
         {
             // Configure console.
@@ -169,6 +213,7 @@ namespace Password_Encryption_and_Authentication
                             cursorCol = Console.WindowWidth - 1;
                             Console.CursorTop = Console.CursorTop - 1;
                         }
+
                         int oldLength = inputString.Length;
 
                         inputString = inputString.Substring(0, oldLength - 1);
