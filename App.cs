@@ -14,6 +14,18 @@ namespace Password_Encryption_and_Authentication
         {
             EventLoop();
             Console.ResetColor();
+            PrintUserNamesAndPasswords();
+        }
+
+        private void PrintUserNamesAndPasswords()
+        {
+            Console.WriteLine("\n\nHere are all the usernames and passwords entered");
+            foreach (var entry in userAndPassword)
+            {
+                Console.WriteLine($"Username: {entry.Key}");
+                Console.WriteLine($"Password: {entry.Value}");
+                Console.WriteLine();
+            }
         }
 
         private void EventLoop()
